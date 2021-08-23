@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    //    function createIterator(items) {
+    //        var i = 0;
+    //        return {
+    //            next() {
+    //                var done =(i>= items.length);
+    //                var value = !done?items[i++]:undefined
+    //                return {
+    //                    done,
+    //                    value
+    //                }
+    //            }
+    //        }
+    //    }
+    //    const a = createIterator([1,2,3])
+
+    var arr = [0,1,1,2,3,6,9,15,24]
+    function createIterator(items) {
+        var num = 0
+        return {
+            pre1:num,
+            pre2:num,
+            next() {
+                if (num ===0) {
+                    num++
+                    return {
+                        done:num>= items.length,
+                        value:items[0]
+                    }
+                } else if(num===1) {
+                    num++
+                    return {
+                        done:num>= items.length,
+                        value:items[this.pre1]+items[this.pre2]+items[num-1]
+                    }
+                } else if(num===2) {
+                    this.pre1++
+                    num++
+                    return {
+                        done:num>= items.length,
+                        value:items[this.pre1]+items[this.pre2]+items[num-1]
+                    }
+                } else {
+                    this.pre1++
+                    this.pre2++
+                    num++
+                    return {
+                        done:num>= items.length,
+                        value:items[this.pre1]+items[this.pre2]+items[num-1]
+                    }
+                }
+            }
+        }
+    }
+    const iterator = createIterator(arr)
+    console.log(iterator.next(),"///")
+    console.log(iterator.next(),"///")
+    console.log(iterator.next(),"///")
+    console.log(iterator.next(),"///")
+    console.log(iterator.next(),"///")
+    console.log(iterator.next(),"///")
+    console.log(iterator.next(),"///")
+    console.log(iterator.next(),"///")
+
+
+
+
+    function *easy () {
+        yield 1;
+        yield 2;
+        yield 3
+    }
+    const easrItarator = easy()
+    console.log(easrItarator,"easrItarator")
+    // yield 中断执行 暂停执行
+    // for of 是遍历迭代器的  是调用了next 方法  迭代器的标准 就是 有next 方法  返回一个对象 {done:false,value:undefined}
+
+
+
+    function *difficult(count) {
+        var num =0
+        if (num < count) {
+            if (num ===0) {
+              this.pre1 =1
+              num ++ 
+              yield {
+                  done:false,
+                  value:0
+              }
+            }
+            while (true) {
+                num ++
+                let result = pre1 + pre2
+                pre2 = pre1
+                pre1 = result 
+                yield {
+                    done:false,
+                    value:result
+                }
+            }
+        }
+    }
+
+
+
+function *abc () {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+
+const tt = abc()
+console.log(tt,"//")
+console.log([...tt])
+
+
+var aIterator = function *() {
+   yield 1;
+   yield 2;
+   yield 3;
+}
+var bIterator = function *() {
+   yield 4;
+   yield 5;
+   yield 6;
+}
+var cIterator = function *() {
+  yield *aIterator()
+  yield *bIterator()
+}
+
+var c = cIterator()
+
+for (let value of c) {
+    console.log(value,"ss")
+}
+
+
+// 任务执行器
+function *aIterator () {
+    yield 1;
+    yield 3;
+    yield 5;
+    yield 7;
+    yield 9;
+}
+function run(fnIter) {
+    let iterator = fnIter()
+     while(true) {
+        let {done,value} = iterator()
+        console.log(value,done)
+        if (done) {
+           break
+        }
+     }
+}
+
+
+const user = {
+    name:'小明',
+    age:16
+}
+var pUser = new Proxy(user,{
+    get(target,attr) {
+        console.log(target)
+        console.log(attr)
+        return target.attr
+    },
+    set(target,attr,value) {
+        target.attr = value
+    }
+}) // target 代理的目标对象  handle 也是对象 描述代理的事情对象
+
+const age = pUser.age
+
+
+</script>
+</body>
+</html>
